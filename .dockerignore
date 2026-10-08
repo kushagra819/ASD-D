@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+*.db
+.pytest_cache
+test-reports
+docs
+jenkins
+jira
+monitoring
+.env
