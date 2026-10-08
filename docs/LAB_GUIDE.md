@@ -9,6 +9,16 @@ You can compare yours against them.
 
 ---
 
+## Step 0 — One-time GitHub setup (≈2 min, Kushagra)
+
+The code is on the branch `claude/quirky-lovelace-3nfp6h`. On GitHub:
+1. Branch dropdown → type `main` → **Create branch: main from claude/quirky-lovelace-3nfp6h**.
+2. **Settings → General → Default branch** → choose `main`.
+3. Keep the repository **Public** (it already is), so Jenkins can clone it without credentials.
+4. **Settings → Collaborators** → add Siddharth and Varun.
+
+---
+
 ## Exp 1 — Git & GitHub (≈15 min)
 
 ```bash
@@ -91,7 +101,7 @@ Persistence check: `docker compose down` then `docker compose up -d`. Your loan 
 
 ## Exp 4 & 5 — Jenkins CI/CD + automated deployment (≈15 min)
 
-The repo must be **public** (GitHub → Settings → Change visibility) or Jenkins can't clone it.
+The repo must stay **public**, or Jenkins can't clone it.
 The job builds the `main` branch. To build another branch, set `LABLEND_BRANCH` first, e.g.
 `$env:LABLEND_BRANCH="my-branch"` (PowerShell) or `export LABLEND_BRANCH=my-branch` (bash).
 

@@ -1,0 +1,37 @@
+$ docker --version
+Docker version 29.8.2, build 7fc2dff
+
+$ docker compose version
+Docker Compose version v5.6.0
+
+$ docker build -t lablend . 2>&1 | grep -E 'FROM|RUN|COPY|naming|DONE' | tail -14
+#3 DONE 0.0s
+#4 [base 1/6] FROM docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da
+#4 DONE 0.0s
+#5 DONE 0.0s
+#7 [base 3/6] COPY requirements.txt .
+#8 [base 4/6] RUN pip install -r requirements.txt
+#9 [base 5/6] COPY app ./app
+#9 DONE 0.0s
+#10 [base 6/6] COPY wsgi.py .
+#10 DONE 0.0s
+#11 [production 1/1] RUN useradd --create-home lablend && chown -R lablend /app
+#11 DONE 0.3s
+#12 naming to docker.io/library/lablend:latest done
+#12 DONE 0.2s
+
+$ docker images | grep -E 'REPOSITORY|lablend|postgres|node-exporter'
+lablend-grafana:latest      000b1af01ea5        635MB          128MB   U    
+lablend-prometheus:latest   43dbe606ac67        386MB          108MB   U    
+lablend-test:1              f32ee4187074        237MB         57.1MB        
+lablend-test:2              88743399b17c        237MB         57.1MB        
+lablend-web:1               f5af6999174b        233MB         56.1MB        
+lablend-web:2               c5c01e5caa12        233MB         56.2MB   U    
+lablend-web:latest          c5c01e5caa12        233MB         56.2MB   U    
+lablend:latest              221d9b992b86        233MB         56.2MB        
+postgres:16-alpine          721873c34ceb        420MB          117MB   U    
+prom/node-exporter:v1.8.2   4032c6d5bfd7       38.2MB           12MB   U    
+
+$ docker run -d -p 5001:5000 --name lablend-single lablend
+48a9815c8e1d8affffb139656bdb548f68c38b4a1f70a1c2d3301e74d10ee258
+

@@ -1,0 +1,46 @@
+$ git log --oneline --graph
+*   fdab0b8 Merge branch 'fix/prometheus-volume'
+|\  
+| * 919e69f Keep Prometheus data in a named volume
+|/  
+*   c9070a9 Merge branch 'docs/agile-and-guide'
+|\  
+| * d7e1540 Add Jira backlog import and lab guide
+|/  
+*   475e399 Merge branch 'feature/jenkins'
+|\  
+| * 657b264 Add Jenkins CI/CD pipeline and Jenkins configuration as code
+|/  
+*   ec8ed68 Merge branch 'feature/monitoring'
+|\  
+| * 330559e Add Prometheus scrape config and Grafana dashboard
+|/  
+*   f82200a Merge branch 'feature/docker'
+|\  
+| * 41a1a78 Containerise LabLend with Docker and Docker Compose
+|/  
+*   c8ecbdf Merge branch 'feature/tests'
+|\  
+| * ad4ad92 Add pytest suite for auth, loan workflow and metrics
+|/  
+*   ae81844 Merge branch 'feature/app-core'
+|\  
+| * 78c4a80 Add student and lab assistant pages
+| * e54cdb2 Add Flask app factory, data models and seed data
+|/  
+* 2100d61 Initial commit: project overview and ignore rules
+
+$ git branch
+* claude/quirky-lovelace-3nfp6h
+  docs/agile-and-guide
+  feature/app-core
+  feature/docker
+  feature/jenkins
+  feature/monitoring
+  feature/tests
+  fix/prometheus-volume
+
+$ git remote -v
+origin	https://github.com/kushagra819/ASD-D (fetch)
+origin	https://github.com/kushagra819/ASD-D (push)
+

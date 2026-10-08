@@ -1,0 +1,37 @@
+$ docker compose config --services
+db
+node-exporter
+web
+prometheus
+grafana
+
+$ docker compose ps
+NAME                      IMAGE                       COMMAND                  SERVICE         CREATED              STATUS                        PORTS
+lablend-db-1              postgres:16-alpine          "docker-entrypoint.s…"   db              About a minute ago   Up About a minute (healthy)   5432/tcp
+lablend-grafana-1         lablend-grafana:latest      "/run.sh"                grafana         About a minute ago   Up About a minute             0.0.0.0:3000->3000/tcp
+lablend-node-exporter-1   prom/node-exporter:v1.8.2   "/bin/node_exporter"     node-exporter   About a minute ago   Up About a minute             0.0.0.0:9100->9100/tcp
+lablend-prometheus-1      lablend-prometheus:latest   "/bin/prometheus --c…"   prometheus      About a minute ago   Up About a minute             0.0.0.0:9090->9090/tcp
+lablend-web-1             lablend-web:latest          "gunicorn --bind 0.0…"   web             About a minute ago   Up About a minute (healthy)   0.0.0.0:5000->5000/tcp
+
+$ docker volume ls | grep lablend
+local     lablend_grafana-data
+local     lablend_pgdata
+local     lablend_prometheus-data
+
+$ docker network ls | grep lablend
+4bc51bf8e971   lablend_default   bridge    local
+
+$ docker compose logs web --tail 6
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:03 +0000] "GET /does-not-exist HTTP/1.1" 404 207 "-" "curl/8.5.0"
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:04 +0000] "GET /health HTTP/1.1" 200 57 "-" "curl/8.5.0"
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:04 +0000] "GET /api/stats HTTP/1.1" 200 106 "-" "curl/8.5.0"
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:04 +0000] "GET /api/equipment HTTP/1.1" 200 1250 "-" "curl/8.5.0"
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:04 +0000] "GET /login HTTP/1.1" 200 1513 "-" "curl/8.5.0"
+web-1  | 172.18.0.1 - - [08/Oct/2026:18:08:04 +0000] "GET /does-not-exist HTTP/1.1" 404 207 "-" "curl/8.5.0"
+
+$ curl -s http://localhost:5000/health
+{"database":"CONNECTED","status":"UP","version":"1.0.0"}
+
+$ curl -s http://localhost:5000/api/stats
+{"available_units":68,"issued_units":4,"items":9,"overdue_loans":1,"pending_requests":1,"total_units":72}
+

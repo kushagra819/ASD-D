@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.16, pytest-8.3.3, pluggy-1.6.0 -- /tmp/claude-0/-home-user-ASD-D/f52d3ef1-9ebe-558c-bf57-c56a4f8a9ba2/scratchpad/venv/bin/python
+cachedir: .pytest_cache
+rootdir: ASD-D
+collecting ... collected 19 items
+
+tests/test_app.py::test_health_endpoint_reports_database_up PASSED       [  5%]
+tests/test_app.py::test_api_lists_equipment_with_availability PASSED     [ 10%]
+tests/test_app.py::test_unauthenticated_user_is_redirected_to_login PASSED [ 15%]
+tests/test_app.py::test_student_can_register_and_login PASSED            [ 21%]
+tests/test_app.py::test_duplicate_roll_number_is_rejected PASSED         [ 26%]
+tests/test_app.py::test_wrong_password_is_rejected PASSED                [ 31%]
+tests/test_app.py::test_student_cannot_open_assistant_pages PASSED       [ 36%]
+tests/test_app.py::test_student_can_request_equipment PASSED             [ 42%]
+tests/test_app.py::test_request_more_than_available_is_rejected PASSED   [ 47%]
+tests/test_app.py::test_loan_period_is_limited PASSED                    [ 52%]
+tests/test_app.py::test_student_active_loan_limit PASSED                 [ 57%]
+tests/test_app.py::test_assistant_approval_issues_item_and_reduces_availability PASSED [ 63%]
+tests/test_app.py::test_cannot_approve_when_stock_is_exhausted PASSED    [ 68%]
+tests/test_app.py::test_assistant_can_reject_request PASSED              [ 73%]
+tests/test_app.py::test_return_restores_availability PASSED              [ 78%]
+tests/test_app.py::test_loan_past_due_date_is_flagged_overdue PASSED     [ 84%]
+tests/test_app.py::test_assistant_can_add_equipment PASSED               [ 89%]
+tests/test_app.py::test_quantity_cannot_drop_below_issued_units PASSED   [ 94%]
+tests/test_app.py::test_metrics_endpoint_exposes_lablend_metrics PASSED  [100%]
+
+============================== 19 passed in 8.71s ==============================

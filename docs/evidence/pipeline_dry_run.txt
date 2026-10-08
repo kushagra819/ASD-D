@@ -1,0 +1,90 @@
+# Jenkinsfile stages executed with the Docker CLI inside a container built from jenkins/jenkins:lts-jdk21
+# (dry run of the pipeline shell steps; the Jenkins UI run happens on the team's laptop)
+
+[Pipeline] stage: Build Test Image
+#12 DONE 7.0s
+#13 DONE 0.0s
+#14 naming to docker.io/library/lablend-test:2 done
+#14 DONE 3.2s
+
+[Pipeline] stage: Unit Tests
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-8.3.3, pluggy-1.6.0 -- /usr/local/bin/python3.12
+cachedir: .pytest_cache
+rootdir: /app
+collecting ... collected 19 items
+
+tests/test_app.py::test_health_endpoint_reports_database_up PASSED       [  5%]
+tests/test_app.py::test_api_lists_equipment_with_availability PASSED     [ 10%]
+tests/test_app.py::test_unauthenticated_user_is_redirected_to_login PASSED [ 15%]
+tests/test_app.py::test_student_can_register_and_login PASSED            [ 21%]
+tests/test_app.py::test_duplicate_roll_number_is_rejected PASSED         [ 26%]
+tests/test_app.py::test_wrong_password_is_rejected PASSED                [ 31%]
+tests/test_app.py::test_student_cannot_open_assistant_pages PASSED       [ 36%]
+tests/test_app.py::test_student_can_request_equipment PASSED             [ 42%]
+tests/test_app.py::test_request_more_than_available_is_rejected PASSED   [ 47%]
+tests/test_app.py::test_loan_period_is_limited PASSED                    [ 52%]
+tests/test_app.py::test_student_active_loan_limit PASSED                 [ 57%]
+tests/test_app.py::test_assistant_approval_issues_item_and_reduces_availability PASSED [ 63%]
+tests/test_app.py::test_cannot_approve_when_stock_is_exhausted PASSED    [ 68%]
+tests/test_app.py::test_assistant_can_reject_request PASSED              [ 73%]
+tests/test_app.py::test_return_restores_availability PASSED              [ 78%]
+tests/test_app.py::test_loan_past_due_date_is_flagged_overdue PASSED     [ 84%]
+tests/test_app.py::test_assistant_can_add_equipment PASSED               [ 89%]
+tests/test_app.py::test_quantity_cannot_drop_below_issued_units PASSED   [ 94%]
+tests/test_app.py::test_metrics_endpoint_exposes_lablend_metrics PASSED  [100%]
+
+============================== 19 passed in 8.20s ==============================
+
+[Pipeline] stage: Build Docker Image
+#12 naming to docker.io/library/lablend-web:2 done
+#12 naming to docker.io/library/lablend-web:latest done
+#12 DONE 0.2s
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+lablend-web   2         c5c01e5caa12   1 second ago    233MB
+lablend-web   latest    c5c01e5caa12   1 second ago    233MB
+lablend-web   1         f5af6999174b   9 minutes ago   233MB
+
+[Pipeline] stage: Deploy (Docker Compose)
+ Container lablend-web-1  Stopping
+ Container lablend-prometheus-1  Stopping
+ Container lablend-prometheus-1  Stopped
+ Container lablend-node-exporter-1  Recreate
+ Container lablend-node-exporter-1  Recreated
+ Container lablend-web-1  Stopped
+ Container lablend-db-1  Recreate
+ Container lablend-db-1  Recreated
+ Container lablend-prometheus-1  Stopping
+ Container lablend-prometheus-1  Stopped
+ Container lablend-web-1  Recreate
+ Container lablend-web-1  Recreated
+ Container lablend-grafana-1  Stopping
+ Container lablend-grafana-1  Stopped
+ Container lablend-prometheus-1  Recreate
+ Container lablend-prometheus-1  Recreated
+ Container lablend-grafana-1  Recreate
+ Container lablend-grafana-1  Recreated
+ Container lablend-db-1  Starting
+ Container lablend-node-exporter-1  Starting
+ Container lablend-node-exporter-1  Started
+ Container lablend-db-1  Started
+ Container lablend-db-1  Waiting
+ Container lablend-db-1  Healthy
+ Container lablend-web-1  Starting
+ Container lablend-web-1  Started
+ Container lablend-prometheus-1  Starting
+ Container lablend-prometheus-1  Started
+ Container lablend-grafana-1  Starting
+ Container lablend-grafana-1  Started
+NAME                      IMAGE                       COMMAND                  SERVICE         CREATED         STATUS                                     PORTS
+lablend-db-1              postgres:16-alpine          "docker-entrypoint.s…"   db              8 seconds ago   Up 6 seconds (healthy)                     5432/tcp
+lablend-grafana-1         lablend-grafana:latest      "/run.sh"                grafana         7 seconds ago   Up Less than a second                      0.0.0.0:3000->3000/tcp
+lablend-node-exporter-1   prom/node-exporter:v1.8.2   "/bin/node_exporter"     node-exporter   9 seconds ago   Up 6 seconds                               0.0.0.0:9100->9100/tcp
+lablend-prometheus-1      lablend-prometheus:latest   "/bin/prometheus --c…"   prometheus      7 seconds ago   Up Less than a second                      0.0.0.0:9090->9090/tcp
+lablend-web-1             lablend-web:latest          "gunicorn --bind 0.0…"   web             8 seconds ago   Up Less than a second (health: starting)   0.0.0.0:5000->5000/tcp
+
+[Pipeline] stage: Smoke Test
+{"database":"CONNECTED","status":"UP","version":"1.0.2"}
+
+LabLend is UP after deployment
+exit status: 0
