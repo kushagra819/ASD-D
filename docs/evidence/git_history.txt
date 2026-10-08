@@ -1,4 +1,10 @@
 $ git log --oneline --graph
+* 3af767f Update monitoring screenshots with disk metrics
+*   edbc355 Merge branch 'fix/node-exporter-disk'
+|\  
+| * c33f602 Report host disk usage from node-exporter
+|/  
+* ca8ce51 Add test-run screenshots, command evidence and GitHub setup step
 *   fdab0b8 Merge branch 'fix/prometheus-volume'
 |\  
 | * 919e69f Keep Prometheus data in a named volume
@@ -38,6 +44,7 @@ $ git branch
   feature/jenkins
   feature/monitoring
   feature/tests
+  fix/node-exporter-disk
   fix/prometheus-volume
 
 $ git remote -v
