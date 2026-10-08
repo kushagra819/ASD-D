@@ -1,0 +1,241 @@
+Started by an SCM change
+Checking out git https://github.com/kushagra819/ASD-D.git into /var/jenkins_home/workspace/LabLend-CI-CD@script/d2e5a0c944b433b7f8125b5593375e49a7bdb7377a187cdb8cdf0b7e4d595c95 to read Jenkinsfile
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/LabLend-CI-CD@script/d2e5a0c944b433b7f8125b5593375e49a7bdb7377a187cdb8cdf0b7e4d595c95/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/kushagra819/ASD-D.git # timeout=10
+Fetching upstream changes from https://github.com/kushagra819/ASD-D.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.36.2'
+ > git fetch --tags --force --progress -- https://github.com/kushagra819/ASD-D.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 454bc811fe9603e125181432c5051b96ae144605 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 454bc811fe9603e125181432c5051b96ae144605 # timeout=10
+Commit message: "Allow up to 5 active loans per student"
+ > git rev-list --no-walk 7140de82edb1128567357568113f75577343d306 # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/LabLend-CI-CD
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 20 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/LabLend-CI-CD/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/kushagra819/ASD-D.git # timeout=10
+Fetching upstream changes from https://github.com/kushagra819/ASD-D.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.36.2'
+ > git fetch --tags --force --progress -- https://github.com/kushagra819/ASD-D.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 454bc811fe9603e125181432c5051b96ae144605 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 454bc811fe9603e125181432c5051b96ae144605 # timeout=10
+Commit message: "Allow up to 5 active loans per student"
+[Pipeline] sh
++ git log --oneline -5
+454bc81 Allow up to 5 active loans per student
+7140de8 Merge pull request #1 from kushagra819/feature/loan-csv-export
+d497a39 Add CSV export of loan history for the lab assistant
+b72579d Jenkinsfile: use a single checkout stage and drop timestamps option
+ff88b1c Add git history evidence
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Test Image)
+[Pipeline] sh
++ docker build --target test -t lablend-test:3 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.24kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 140B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 13.63kB done
+#4 DONE 0.0s
+
+#5 [base 1/6] FROM docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da
+#5 resolve docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da 0.0s done
+#5 DONE 0.0s
+
+#6 [base 2/6] WORKDIR /app
+#6 CACHED
+
+#7 [base 3/6] COPY requirements.txt .
+#7 CACHED
+
+#8 [base 4/6] RUN pip install -r requirements.txt
+#8 CACHED
+
+#9 [base 5/6] COPY app ./app
+#9 DONE 0.0s
+
+#10 [base 6/6] COPY wsgi.py .
+#10 DONE 0.0s
+
+#11 [test 1/3] COPY requirements-dev.txt .
+#11 DONE 0.0s
+
+#12 [test 2/3] RUN pip install -r requirements-dev.txt
+#12 1.657 Requirement already satisfied: Flask==3.0.3 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 1)) (3.0.3)
+#12 1.658 Requirement already satisfied: Flask-SQLAlchemy==3.1.1 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 2)) (3.1.1)
+#12 1.658 Requirement already satisfied: SQLAlchemy==2.0.36 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 3)) (2.0.36)
+#12 1.658 Requirement already satisfied: psycopg2-binary==2.9.10 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 4)) (2.9.10)
+#12 1.659 Requirement already satisfied: gunicorn==23.0.0 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 5)) (23.0.0)
+#12 1.659 Requirement already satisfied: prometheus-flask-exporter==0.23.1 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 6)) (0.23.1)
+#12 1.740 Collecting pytest==8.3.3 (from -r requirements-dev.txt (line 2))
+#12 1.795   Downloading pytest-8.3.3-py3-none-any.whl.metadata (7.5 kB)
+#12 1.802 Requirement already satisfied: Werkzeug>=3.0.0 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.1.9)
+#12 1.803 Requirement already satisfied: Jinja2>=3.1.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.1.6)
+#12 1.803 Requirement already satisfied: itsdangerous>=2.1.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (2.2.0)
+#12 1.804 Requirement already satisfied: click>=8.1.3 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (8.5.0)
+#12 1.804 Requirement already satisfied: blinker>=1.6.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (1.9.0)
+#12 1.812 Requirement already satisfied: typing-extensions>=4.6.0 in /usr/local/lib/python3.12/site-packages (from SQLAlchemy==2.0.36->-r /app/requirements.txt (line 3)) (4.16.0)
+#12 1.813 Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib/python3.12/site-packages (from SQLAlchemy==2.0.36->-r /app/requirements.txt (line 3)) (3.5.6)
+#12 1.816 Requirement already satisfied: packaging in /usr/local/lib/python3.12/site-packages (from gunicorn==23.0.0->-r /app/requirements.txt (line 5)) (26.3)
+#12 1.817 Requirement already satisfied: prometheus-client in /usr/local/lib/python3.12/site-packages (from prometheus-flask-exporter==0.23.1->-r /app/requirements.txt (line 6)) (0.26.0)
+#12 1.840 Collecting iniconfig (from pytest==8.3.3->-r requirements-dev.txt (line 2))
+#12 1.863   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#12 1.893 Collecting pluggy<2,>=1.5 (from pytest==8.3.3->-r requirements-dev.txt (line 2))
+#12 1.912   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#12 1.919 Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/site-packages (from Jinja2>=3.1.2->Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.0.4)
+#12 1.943 Downloading pytest-8.3.3-py3-none-any.whl (342 kB)
+#12 1.967 Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+#12 1.985 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#12 2.010 Installing collected packages: pluggy, iniconfig, pytest
+#12 2.330 Successfully installed iniconfig-2.3.1 pluggy-1.6.0 pytest-8.3.3
+#12 2.330 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#12 2.417 
+#12 2.417 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#12 2.417 [notice] To update, run: pip install --upgrade pip
+#12 DONE 2.6s
+
+#13 [test 3/3] COPY tests ./tests
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.3s done
+#14 exporting manifest sha256:9c07e804b195041688720aacf57442826d1ddc1c67728d9b20616bac9bd06ae6 done
+#14 exporting config sha256:119bd5b1e6ebc37ac7d0536355bc218e77674538609900607c06ddb9c909f4e2 done
+#14 exporting attestation manifest sha256:2885b7d56ba5c72d5aa3153ee026d6fe3f97f80d36f426bfb2e073c86c295641 done
+#14 exporting manifest list sha256:a3c7313fd543cb133e639e1fe9408671a35e0409cecf5e046fdb56e880030331 done
+#14 naming to docker.io/library/lablend-test:3 done
+#14 unpacking to docker.io/library/lablend-test:3 0.1s done
+#14 DONE 0.4s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Unit Tests)
+[Pipeline] sh
++ mkdir -p test-reports
++ docker rm -f lablend-test-3
++ docker run --name lablend-test-3 lablend-test:3 pytest -v '--junitxml=/tmp/junit.xml'
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-8.3.3, pluggy-1.6.0 -- /usr/local/bin/python3.12
+cachedir: .pytest_cache
+rootdir: /app
+collecting ... collected 22 items
+
+tests/test_app.py::test_health_endpoint_reports_database_up PASSED       [  4%]
+tests/test_app.py::test_api_lists_equipment_with_availability PASSED     [  9%]
+tests/test_app.py::test_unauthenticated_user_is_redirected_to_login PASSED [ 13%]
+tests/test_app.py::test_student_can_register_and_login PASSED            [ 18%]
+tests/test_app.py::test_duplicate_roll_number_is_rejected PASSED         [ 22%]
+tests/test_app.py::test_wrong_password_is_rejected PASSED                [ 27%]
+tests/test_app.py::test_student_cannot_open_assistant_pages PASSED       [ 31%]
+tests/test_app.py::test_student_can_request_equipment PASSED             [ 36%]
+tests/test_app.py::test_request_more_than_available_is_rejected PASSED   [ 40%]
+tests/test_app.py::test_loan_period_is_limited PASSED                    [ 45%]
+tests/test_app.py::test_student_active_loan_limit FAILED                 [ 50%]
+tests/test_app.py::test_assistant_approval_issues_item_and_reduces_availability PASSED [ 54%]
+tests/test_app.py::test_cannot_approve_when_stock_is_exhausted PASSED    [ 59%]
+tests/test_app.py::test_assistant_can_reject_request PASSED              [ 63%]
+tests/test_app.py::test_return_restores_availability PASSED              [ 68%]
+tests/test_app.py::test_loan_past_due_date_is_flagged_overdue PASSED     [ 72%]
+tests/test_app.py::test_assistant_can_add_equipment PASSED               [ 77%]
+tests/test_app.py::test_quantity_cannot_drop_below_issued_units PASSED   [ 81%]
+tests/test_app.py::test_metrics_endpoint_exposes_lablend_metrics PASSED  [ 86%]
+tests/test_app.py::test_assistant_can_export_loans_as_csv PASSED         [ 90%]
+tests/test_app.py::test_csv_export_respects_status_filter PASSED         [ 95%]
+tests/test_app.py::test_student_cannot_export_loans PASSED               [100%]
+
+=================================== FAILURES ===================================
+________________________ test_student_active_loan_limit ________________________
+
+student = <FlaskClient <Flask 'app'>>, app = <Flask 'app'>
+
+    def test_student_active_loan_limit(student, app):
+        with app.app_context():
+            db.session.add(Equipment(name="Breadboard", category="Prototyping", asset_code="LAB-BRD-01", total_qty=10))
+            db.session.commit()
+        for _ in range(3):
+            student.post("/equipment/2/request", data={"quantity": 1, "days": 3})
+        res = student.post("/equipment/2/request", data={"quantity": 1, "days": 3}, follow_redirects=True)
+>       assert b"at most 3 active" in res.data
+E       assert b'at most 3 active' in b'<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>Browse Equipment \xc2\xb7 LabLend</title>\n  <link rel="stylesheet" href="/static/style.css">\n</head>\n<body>\n  <header class="topbar">\n    <a class="brand" href="/">\n      <span class="logo">LL</span>\n      <span><strong>LabLend</strong><small>Lab Equipment Issue &amp; Return</small></span>\n    </a>\n    \n    <nav>\n      \n        <a href="/equipment" class="active">Browse Equipment</a>\n        <a href="/my-loans" class="">My Loans</a>\n      \n    </nav>\n    <div class="user">\n      <span>Test Student <em>2401999</em></span>\n      <a class="btn btn-ghost" href="/logout">Logout</a>\n    </div>\n    \n  </header>\n\n  <main class="container">\n    \n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request f...="2" value="1"></label>\n      <label>Days <input type="number" name="days" min="1" max="14" value="7"></label>\n      <input name="purpose" placeholder="Purpose (optional)">\n      <button class="btn btn-primary" type="submit">Request</button>\n    </form>\n    \n  </article>\n  \n  <article class="card item">\n    <div class="item-top">\n      <span class="tag">Prototyping</span>\n      <code>LAB-BRD-01</code>\n    </div>\n    <h3>Breadboard</h3>\n    <p class="muted"></p>\n    \n    <div class="avail">\n      <div class="bar"><span style="width: 100.0%"></span></div>\n      <strong class="">10 / 10 available</strong>\n    </div>\n    \n    <form method="post" action="/equipment/2/request" class="request-form">\n      <label>Qty <input type="number" name="quantity" min="1" max="10" value="1"></label>\n      <label>Days <input type="number" name="days" min="1" max="14" value="7"></label>\n      <input name="purpose" placeholder="Purpose (optional)">\n      <button class="btn btn-primary" type="submit">Request</button>\n    </form>\n    \n  </article>\n  \n</div>\n\n  </main>\n\n  <footer class="footer">LabLend v1.0.0 \xc2\xb7 AI &amp; DS Department Lab</footer>\n</body>\n</html>'
+E        +  where b'<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>Browse Equipment \xc2\xb7 LabLend</title>\n  <link rel="stylesheet" href="/static/style.css">\n</head>\n<body>\n  <header class="topbar">\n    <a class="brand" href="/">\n      <span class="logo">LL</span>\n      <span><strong>LabLend</strong><small>Lab Equipment Issue &amp; Return</small></span>\n    </a>\n    \n    <nav>\n      \n        <a href="/equipment" class="active">Browse Equipment</a>\n        <a href="/my-loans" class="">My Loans</a>\n      \n    </nav>\n    <div class="user">\n      <span>Test Student <em>2401999</em></span>\n      <a class="btn btn-ghost" href="/logout">Logout</a>\n    </div>\n    \n  </header>\n\n  <main class="container">\n    \n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request for Breadboard sent to the lab assistant.</div>\n      \n        <div class="flash flash-success">Request f...="2" value="1"></label>\n      <label>Days <input type="number" name="days" min="1" max="14" value="7"></label>\n      <input name="purpose" placeholder="Purpose (optional)">\n      <button class="btn btn-primary" type="submit">Request</button>\n    </form>\n    \n  </article>\n  \n  <article class="card item">\n    <div class="item-top">\n      <span class="tag">Prototyping</span>\n      <code>LAB-BRD-01</code>\n    </div>\n    <h3>Breadboard</h3>\n    <p class="muted"></p>\n    \n    <div class="avail">\n      <div class="bar"><span style="width: 100.0%"></span></div>\n      <strong class="">10 / 10 available</strong>\n    </div>\n    \n    <form method="post" action="/equipment/2/request" class="request-form">\n      <label>Qty <input type="number" name="quantity" min="1" max="10" value="1"></label>\n      <label>Days <input type="number" name="days" min="1" max="14" value="7"></label>\n      <input name="purpose" placeholder="Purpose (optional)">\n      <button class="btn btn-primary" type="submit">Request</button>\n    </form>\n    \n  </article>\n  \n</div>\n\n  </main>\n\n  <footer class="footer">LabLend v1.0.0 \xc2\xb7 AI &amp; DS Department Lab</footer>\n</body>\n</html>' = <WrapperTestResponse 3399 bytes [200 OK]>.data
+
+tests/test_app.py:83: AssertionError
+---------------------- generated xml file: /tmp/junit.xml ----------------------
+=========================== short test summary info ============================
+FAILED tests/test_app.py::test_student_active_loan_limit - assert b'at most 3...
+========================= 1 failed, 21 passed in 9.95s =========================
+Post stage
+[Pipeline] sh
++ docker cp lablend-test-3:/tmp/junit.xml test-reports/junit.xml
++ docker rm -f lablend-test-3
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+Stage "Build Docker Image" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy (Docker Compose))
+Stage "Deploy (Docker Compose)" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Smoke Test)
+Stage "Smoke Test" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] sh
++ docker image prune -f
+[Pipeline] echo
+Build #3 failed - check the stage logs above.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

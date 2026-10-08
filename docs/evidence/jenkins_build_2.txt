@@ -1,0 +1,314 @@
+Started by an SCM change
+Checking out git https://github.com/kushagra819/ASD-D.git into /var/jenkins_home/workspace/LabLend-CI-CD@script/d2e5a0c944b433b7f8125b5593375e49a7bdb7377a187cdb8cdf0b7e4d595c95 to read Jenkinsfile
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/LabLend-CI-CD@script/d2e5a0c944b433b7f8125b5593375e49a7bdb7377a187cdb8cdf0b7e4d595c95/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/kushagra819/ASD-D.git # timeout=10
+Fetching upstream changes from https://github.com/kushagra819/ASD-D.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.36.2'
+ > git fetch --tags --force --progress -- https://github.com/kushagra819/ASD-D.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 7140de82edb1128567357568113f75577343d306 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 7140de82edb1128567357568113f75577343d306 # timeout=10
+Commit message: "Merge pull request #1 from kushagra819/feature/loan-csv-export"
+ > git rev-list --no-walk b72579da67142485354033bafdd4858c71a272ce # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/LabLend-CI-CD
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 20 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/LabLend-CI-CD/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/kushagra819/ASD-D.git # timeout=10
+Fetching upstream changes from https://github.com/kushagra819/ASD-D.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.36.2'
+ > git fetch --tags --force --progress -- https://github.com/kushagra819/ASD-D.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 7140de82edb1128567357568113f75577343d306 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 7140de82edb1128567357568113f75577343d306 # timeout=10
+Commit message: "Merge pull request #1 from kushagra819/feature/loan-csv-export"
+[Pipeline] sh
++ git log --oneline -5
+7140de8 Merge pull request #1 from kushagra819/feature/loan-csv-export
+d497a39 Add CSV export of loan history for the lab assistant
+b72579d Jenkinsfile: use a single checkout stage and drop timestamps option
+ff88b1c Add git history evidence
+3af767f Update monitoring screenshots with disk metrics
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Test Image)
+[Pipeline] sh
++ docker build --target test -t lablend-test:2 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.24kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 140B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 23.72kB done
+#4 DONE 0.0s
+
+#5 [base 1/6] FROM docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da
+#5 resolve docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da 0.0s done
+#5 DONE 0.0s
+
+#6 [base 2/6] WORKDIR /app
+#6 CACHED
+
+#7 [base 3/6] COPY requirements.txt .
+#7 CACHED
+
+#8 [base 4/6] RUN pip install -r requirements.txt
+#8 CACHED
+
+#9 [base 5/6] COPY app ./app
+#9 DONE 0.0s
+
+#10 [base 6/6] COPY wsgi.py .
+#10 DONE 0.0s
+
+#11 [test 1/3] COPY requirements-dev.txt .
+#11 DONE 0.0s
+
+#12 [test 2/3] RUN pip install -r requirements-dev.txt
+#12 1.904 Requirement already satisfied: Flask==3.0.3 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 1)) (3.0.3)
+#12 1.905 Requirement already satisfied: Flask-SQLAlchemy==3.1.1 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 2)) (3.1.1)
+#12 1.908 Requirement already satisfied: SQLAlchemy==2.0.36 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 3)) (2.0.36)
+#12 1.908 Requirement already satisfied: psycopg2-binary==2.9.10 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 4)) (2.9.10)
+#12 1.908 Requirement already satisfied: gunicorn==23.0.0 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 5)) (23.0.0)
+#12 1.908 Requirement already satisfied: prometheus-flask-exporter==0.23.1 in /usr/local/lib/python3.12/site-packages (from -r /app/requirements.txt (line 6)) (0.23.1)
+#12 1.988 Collecting pytest==8.3.3 (from -r requirements-dev.txt (line 2))
+#12 2.434   Downloading pytest-8.3.3-py3-none-any.whl.metadata (7.5 kB)
+#12 2.440 Requirement already satisfied: Werkzeug>=3.0.0 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.1.9)
+#12 2.441 Requirement already satisfied: Jinja2>=3.1.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.1.6)
+#12 2.441 Requirement already satisfied: itsdangerous>=2.1.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (2.2.0)
+#12 2.442 Requirement already satisfied: click>=8.1.3 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (8.5.0)
+#12 2.442 Requirement already satisfied: blinker>=1.6.2 in /usr/local/lib/python3.12/site-packages (from Flask==3.0.3->-r /app/requirements.txt (line 1)) (1.9.0)
+#12 2.449 Requirement already satisfied: typing-extensions>=4.6.0 in /usr/local/lib/python3.12/site-packages (from SQLAlchemy==2.0.36->-r /app/requirements.txt (line 3)) (4.16.0)
+#12 2.450 Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib/python3.12/site-packages (from SQLAlchemy==2.0.36->-r /app/requirements.txt (line 3)) (3.5.6)
+#12 2.453 Requirement already satisfied: packaging in /usr/local/lib/python3.12/site-packages (from gunicorn==23.0.0->-r /app/requirements.txt (line 5)) (26.3)
+#12 2.454 Requirement already satisfied: prometheus-client in /usr/local/lib/python3.12/site-packages (from prometheus-flask-exporter==0.23.1->-r /app/requirements.txt (line 6)) (0.26.0)
+#12 2.480 Collecting iniconfig (from pytest==8.3.3->-r requirements-dev.txt (line 2))
+#12 3.026   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#12 3.054 Collecting pluggy<2,>=1.5 (from pytest==8.3.3->-r requirements-dev.txt (line 2))
+#12 3.527   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#12 3.539 Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/site-packages (from Jinja2>=3.1.2->Flask==3.0.3->-r /app/requirements.txt (line 1)) (3.0.4)
+#12 3.892 Downloading pytest-8.3.3-py3-none-any.whl (342 kB)
+#12 4.263 Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+#12 4.625 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#12 4.649 Installing collected packages: pluggy, iniconfig, pytest
+#12 4.935 Successfully installed iniconfig-2.3.1 pluggy-1.6.0 pytest-8.3.3
+#12 4.936 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#12 5.022 
+#12 5.022 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#12 5.022 [notice] To update, run: pip install --upgrade pip
+#12 DONE 5.2s
+
+#13 [test 3/3] COPY tests ./tests
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.2s done
+#14 exporting manifest sha256:ef9cd0c89af9d000d7e8dad6b427864ec7693e8ee44cd9408f2a53dbc4a6d790 done
+#14 exporting config sha256:e17a2a6186ffea6b7223119aecb1b38831476218a55bf657ec96028011d0ca55 0.0s done
+#14 exporting attestation manifest sha256:c41bc235afb29eb9a77a18cf56104bbd4b953c3f872ac796acbea379aee34d61 done
+#14 exporting manifest list sha256:cb2ef3c047ca3ffe12e767030b42d0ed4ebc370773bb052223c93d061e075acc done
+#14 naming to docker.io/library/lablend-test:2 done
+#14 unpacking to docker.io/library/lablend-test:2 0.1s done
+#14 DONE 0.4s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Unit Tests)
+[Pipeline] sh
++ mkdir -p test-reports
++ docker rm -f lablend-test-2
++ docker run --name lablend-test-2 lablend-test:2 pytest -v '--junitxml=/tmp/junit.xml'
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-8.3.3, pluggy-1.6.0 -- /usr/local/bin/python3.12
+cachedir: .pytest_cache
+rootdir: /app
+collecting ... collected 22 items
+
+tests/test_app.py::test_health_endpoint_reports_database_up PASSED       [  4%]
+tests/test_app.py::test_api_lists_equipment_with_availability PASSED     [  9%]
+tests/test_app.py::test_unauthenticated_user_is_redirected_to_login PASSED [ 13%]
+tests/test_app.py::test_student_can_register_and_login PASSED            [ 18%]
+tests/test_app.py::test_duplicate_roll_number_is_rejected PASSED         [ 22%]
+tests/test_app.py::test_wrong_password_is_rejected PASSED                [ 27%]
+tests/test_app.py::test_student_cannot_open_assistant_pages PASSED       [ 31%]
+tests/test_app.py::test_student_can_request_equipment PASSED             [ 36%]
+tests/test_app.py::test_request_more_than_available_is_rejected PASSED   [ 40%]
+tests/test_app.py::test_loan_period_is_limited PASSED                    [ 45%]
+tests/test_app.py::test_student_active_loan_limit PASSED                 [ 50%]
+tests/test_app.py::test_assistant_approval_issues_item_and_reduces_availability PASSED [ 54%]
+tests/test_app.py::test_cannot_approve_when_stock_is_exhausted PASSED    [ 59%]
+tests/test_app.py::test_assistant_can_reject_request PASSED              [ 63%]
+tests/test_app.py::test_return_restores_availability PASSED              [ 68%]
+tests/test_app.py::test_loan_past_due_date_is_flagged_overdue PASSED     [ 72%]
+tests/test_app.py::test_assistant_can_add_equipment PASSED               [ 77%]
+tests/test_app.py::test_quantity_cannot_drop_below_issued_units PASSED   [ 81%]
+tests/test_app.py::test_metrics_endpoint_exposes_lablend_metrics PASSED  [ 86%]
+tests/test_app.py::test_assistant_can_export_loans_as_csv PASSED         [ 90%]
+tests/test_app.py::test_csv_export_respects_status_filter PASSED         [ 95%]
+tests/test_app.py::test_student_cannot_export_loans PASSED               [100%]
+
+---------------------- generated xml file: /tmp/junit.xml ----------------------
+============================== 22 passed in 9.65s ==============================
+Post stage
+[Pipeline] sh
++ docker cp lablend-test-2:/tmp/junit.xml test-reports/junit.xml
++ docker rm -f lablend-test-2
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] sh
++ docker build --target production -t lablend-web:2 -t lablend-web:latest .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.24kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 140B done
+#3 DONE 0.0s
+
+#4 [base 1/6] FROM docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da
+#4 resolve docker.io/library/python:3.12-slim@sha256:d8f75445401b123aac57ace3843d2bfa158cde7cf434f844d6b67287ec0b93da 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 839B done
+#5 DONE 0.0s
+
+#6 [base 4/6] RUN pip install -r requirements.txt
+#6 CACHED
+
+#7 [base 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [base 3/6] COPY requirements.txt .
+#8 CACHED
+
+#9 [base 5/6] COPY app ./app
+#9 CACHED
+
+#10 [base 6/6] COPY wsgi.py .
+#10 CACHED
+
+#11 [production 1/1] RUN useradd --create-home lablend && chown -R lablend /app
+#11 DONE 0.3s
+
+#12 exporting to image
+#12 exporting layers 0.1s done
+#12 exporting manifest sha256:b1ae569157818c7438c68bd824f7c15ce8a396e2e70fe28da135663dd0b759d1 done
+#12 exporting config sha256:13059051370f102abcc75f914d0b48500bb1259dcb34025f40cec84cadfeee2a done
+#12 exporting attestation manifest sha256:99e5edb467e3066396de6888b10ebff454f7a97b95f9ccac9b4d0e18152e3b1f done
+#12 exporting manifest list sha256:0fd42378d3680f87bbd4f6a14b2689439bf0027904772570dc747a1b4f45fee9 done
+#12 naming to docker.io/library/lablend-web:2 done
+#12 unpacking to docker.io/library/lablend-web:2 0.0s done
+#12 naming to docker.io/library/lablend-web:latest done
+#12 unpacking to docker.io/library/lablend-web:latest 0.0s done
+#12 DONE 0.2s
+[Pipeline] sh
++ docker images lablend-web
+REPOSITORY    TAG       IMAGE ID       CREATED                  SIZE
+lablend-web   2         0fd42378d368   Less than a second ago   233MB
+lablend-web   latest    0fd42378d368   Less than a second ago   233MB
+lablend-web   1         a67821ecb179   About a minute ago       233MB
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy (Docker Compose))
+[Pipeline] sh
++ export 'APP_VERSION=1.0.2'
++ docker compose up -d
+ Container lablend-node-exporter-1  Running
+ Container lablend-db-1  Running
+ Container lablend-prometheus-1  Stopping
+ Container lablend-prometheus-1  Stopped
+ Container lablend-web-1  Recreate
+ Container lablend-web-1  Recreated
+ Container lablend-prometheus-1  Created
+ Container lablend-grafana-1  Running
+ Container lablend-db-1  Waiting
+ Container lablend-db-1  Healthy
+ Container lablend-web-1  Starting
+ Container lablend-web-1  Started
+ Container lablend-prometheus-1  Starting
+ Container lablend-prometheus-1  Started
++ docker compose ps
+NAME                      IMAGE                       COMMAND                  SERVICE         CREATED              STATUS                                     PORTS
+lablend-db-1              postgres:16-alpine          "docker-entrypoint.s…"   db              About a minute ago   Up About a minute (healthy)                5432/tcp
+lablend-grafana-1         lablend-grafana:latest      "/run.sh"                grafana         About a minute ago   Up About a minute                          0.0.0.0:3000->3000/tcp
+lablend-node-exporter-1   prom/node-exporter:v1.8.2   "/bin/node_exporter …"   node-exporter   About a minute ago   Up About a minute                          0.0.0.0:9100->9100/tcp
+lablend-prometheus-1      lablend-prometheus:latest   "/bin/prometheus --c…"   prometheus      About a minute ago   Up Less than a second                      0.0.0.0:9090->9090/tcp
+lablend-web-1             lablend-web:latest          "gunicorn --bind 0.0…"   web             3 seconds ago        Up Less than a second (health: starting)   0.0.0.0:5000->5000/tcp
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Smoke Test)
+[Pipeline] sh
++ seq 1 20
++ curl -fs http://host.docker.internal:5000/health
++ sleep 3
++ curl -fs http://host.docker.internal:5000/health
+{"database":"CONNECTED","status":"UP","version":"1.0.2"}
++ echo 
+
++ echo 'LabLend is UP after deployment'
+LabLend is UP after deployment
++ exit 0
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] sh
++ docker image prune -f
+[Pipeline] echo
+Build #2 deployed successfully: http://localhost:5000
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
