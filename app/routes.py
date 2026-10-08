@@ -1,8 +1,11 @@
 """HTTP routes: authentication, student pages, lab-assistant pages and JSON API."""
+import csv
+import io
+from datetime import date
 from functools import wraps
 
-from flask import (Blueprint, abort, current_app, flash, g, jsonify, redirect,
-                   render_template, request, session, url_for)
+from flask import (Blueprint, Response, abort, current_app, flash, g, jsonify,
+                   redirect, render_template, request, session, url_for)
 from sqlalchemy import text
 
 from .metrics import count
@@ -224,14 +227,37 @@ def delete_equipment(equipment_id):
     return redirect(url_for("admin.equipment"))
 
 
-@admin_bp.route("/loans")
-@assistant_required
-def loans():
+def filtered_loans():
     status = request.args.get("status", "")
     query = Loan.query
     if status:
         query = query.filter_by(status=status)
-    return render_template("admin/loans.html", loans=query.order_by(Loan.requested_at.desc()).all(), status=status)
+    return status, query.order_by(Loan.requested_at.desc()).all()
+
+
+@admin_bp.route("/loans")
+@assistant_required
+def loans():
+    status, rows = filtered_loans()
+    return render_template("admin/loans.html", loans=rows, status=status)
+
+
+@admin_bp.route("/loans/export.csv")
+@assistant_required
+def export_loans():
+    _, rows = filtered_loans()
+    out = io.StringIO()
+    writer = csv.writer(out)
+    writer.writerow(["Loan ID", "Student", "Roll No", "Equipment", "Asset Code", "Quantity",
+                     "Requested", "Issued", "Due Date", "Returned", "Status", "Days Overdue"])
+    fmt = lambda d: d.strftime("%Y-%m-%d") if d else ""
+    for l in rows:
+        writer.writerow([l.id, l.user.name, l.user.roll_no, l.equipment.name, l.equipment.asset_code, l.quantity,
+                         fmt(l.requested_at), fmt(l.issued_at), fmt(l.due_date), fmt(l.returned_at),
+                         l.display_status, l.days_overdue])
+    filename = f"lablend-loans-{date.today():%Y%m%d}.csv"
+    return Response(out.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": f"attachment; filename={filename}"})
 
 
 @admin_bp.route("/loans/<int:loan_id>/approve", methods=["POST"])

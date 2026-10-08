@@ -11,6 +11,7 @@
       <option value="">All statuses</option>
       {% for s in ['REQUESTED', 'ISSUED', 'RETURNED', 'REJECTED'] %}<option {{ 'selected' if s == status }}>{{ s }}</option>{% endfor %}
     </select>
+    <a class="btn btn-primary" href="{{ url_for('admin.export_loans', status=status or None) }}">Download CSV</a>
   </form>
 </div>
 <div class="card">
