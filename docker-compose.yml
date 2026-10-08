@@ -1,0 +1,80 @@
+# ---------------------------------------------------------------
+# LabLend - full stack
+#   docker compose up -d --build
+#
+#   LabLend app ..... http://localhost:5000
+#   Prometheus ...... http://localhost:9090
+#   Grafana ......... http://localhost:3000   (admin / admin)
+#   Node exporter ... http://localhost:9100/metrics
+# ---------------------------------------------------------------
+name: lablend
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lablend
+      POSTGRES_USER: lablend
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lablend123}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lablend -d lablend"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      target: production
+    image: lablend-web:latest
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://lablend:${DB_PASSWORD:-lablend123}@db:5432/lablend
+      SECRET_KEY: ${SECRET_KEY:-change-this-secret}
+      ADMIN_ROLL: ${ADMIN_ROLL:-labadmin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      SEED_DEMO_DATA: "true"
+      APP_VERSION: ${APP_VERSION:-1.0.0}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  prometheus:
+    build: ./monitoring/prometheus
+    image: lablend-prometheus:latest
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    depends_on:
+      - web
+      - node-exporter
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+
+  grafana:
+    build: ./monitoring/grafana
+    image: lablend-grafana:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/lablend.json
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  pgdata:
+  grafana-data:
