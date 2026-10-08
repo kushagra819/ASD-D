@@ -155,3 +155,27 @@ def test_metrics_endpoint_exposes_lablend_metrics(student, assistant, client):
     assert 'lablend_loans{status="overdue"} 0.0' in body
     assert "lablend_loans_issued_total 1.0" in body
     assert "flask_http_request_total" in body
+
+
+# ---------------------------------------------------------------- csv export
+def test_assistant_can_export_loans_as_csv(student, assistant):
+    request_arduino(student, quantity=2)
+    assistant.post("/admin/loans/1/approve")
+    res = assistant.get("/admin/loans/export.csv")
+    assert res.status_code == 200
+    assert res.mimetype == "text/csv"
+    assert "attachment; filename=lablend-loans-" in res.headers["Content-Disposition"]
+    lines = res.data.decode().strip().splitlines()
+    assert lines[0].startswith("Loan ID,Student,Roll No,Equipment")
+    assert "Test Student,2401999,Arduino Uno R3 Kit,LAB-ARD-01,2" in lines[1]
+    assert lines[1].split(",")[-2] == "ISSUED"
+
+
+def test_csv_export_respects_status_filter(student, assistant):
+    request_arduino(student)
+    lines = assistant.get("/admin/loans/export.csv?status=RETURNED").data.decode().strip().splitlines()
+    assert len(lines) == 1  # header only
+
+
+def test_student_cannot_export_loans(student):
+    assert student.get("/admin/loans/export.csv").status_code == 403
