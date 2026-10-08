@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: LabLend
+    folder: LabLend
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
