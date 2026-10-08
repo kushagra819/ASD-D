@@ -1,0 +1,24 @@
+Issue ID,Parent ID,Issue Type,Summary,Description,Priority,Story Points,Labels
+1,,Epic,Equipment Catalogue,Lab assistant maintains the list of lab equipment and stock.,High,,sprint-1
+2,,Epic,Issue & Return Workflow,"Students request equipment; lab assistant approves, issues and records returns.",High,,sprint-1
+3,,Epic,Overdue Tracking & Dashboard,Flag overdue loans and show lab statistics.,Medium,,sprint-2
+4,,Epic,DevOps Pipeline,"Git, Docker, Docker Compose and Jenkins CI/CD for LabLend.",High,,sprint-2
+5,,Epic,Monitoring,Prometheus and Grafana monitoring of the app and server.,Medium,,sprint-3
+6,1,Story,"As a lab assistant, I want to add equipment with an asset code and quantity","Form to add name, category, asset code, quantity. Asset codes are unique.",High,3,sprint-1
+7,1,Story,"As a lab assistant, I want to update stock quantity",Quantity cannot be reduced below the units currently issued.,Medium,2,sprint-1
+8,1,Story,"As a student, I want to browse and search equipment with live availability","Catalogue page with search, category filter and available/total units.",High,3,sprint-1
+9,2,Story,"As a student, I want to register and log in with my roll number",Session-based login with hashed passwords; assistant and student roles.,High,3,sprint-1
+10,2,Story,"As a student, I want to request equipment for a number of days",Request quantity and days (max 14). Max 3 active requests per student.,High,5,sprint-1
+11,2,Story,"As a lab assistant, I want to approve or reject requests",Approval issues the item and sets the due date; stock is checked again.,High,5,sprint-2
+12,2,Story,"As a lab assistant, I want to mark items as returned",Return restores available stock and records the return date.,High,2,sprint-2
+13,3,Story,"As a lab assistant, I want overdue loans flagged automatically",Issued loans past their due date show as OVERDUE with days late.,High,3,sprint-2
+14,3,Story,"As a lab assistant, I want a dashboard of lab statistics","Cards for items, available, issued, pending and overdue.",Medium,3,sprint-2
+15,3,Story,"As a student, I want to see my loans and due dates",My Loans page with status and due date.,Medium,2,sprint-2
+16,4,Task,"Set up Git repository, branches and GitHub remote",Feature branches merged into main; .gitignore.,High,1,sprint-1
+17,4,Task,Write Dockerfile for the Flask app,Multi-stage image: test stage and production stage with gunicorn.,High,2,sprint-2
+18,4,Task,Create docker-compose.yml with web and PostgreSQL,"Health check, named volume, service networking.",High,3,sprint-2
+19,4,Task,Write pytest unit tests,"Tests for auth, request/approve/return workflow, overdue logic and metrics.",High,3,sprint-2
+20,4,Task,Create Jenkins pipeline (Jenkinsfile),"Checkout, tests, Docker build, Compose deploy, smoke test.",High,5,sprint-3
+21,5,Task,Expose /metrics from Flask,"HTTP metrics and business gauges (issued, overdue, pending).",Medium,2,sprint-3
+22,5,Task,Add Prometheus and node-exporter to Compose,Scrape app and server CPU/memory/disk.,Medium,2,sprint-3
+23,5,Task,Build Grafana dashboard,"Panels for app status, overdue loans, request rate, CPU, memory, disk.",Medium,3,sprint-3
