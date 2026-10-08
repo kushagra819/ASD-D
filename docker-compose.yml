@@ -59,6 +59,9 @@ services:
   node-exporter:
     image: prom/node-exporter:v1.8.2
     restart: unless-stopped
+    command: ["--path.rootfs=/host"]
+    volumes:
+      - /:/host:ro          # read-only view of the host so disk usage can be measured
     ports:
       - "9100:9100"
 
