@@ -9,7 +9,7 @@ pipeline {
     agent any
 
     options {
-        timestamps()
+        skipDefaultCheckout()
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '15'))
         timeout(time: 20, unit: 'MINUTES')
