@@ -50,6 +50,8 @@ services:
     restart: unless-stopped
     ports:
       - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
     depends_on:
       - web
       - node-exporter
@@ -77,4 +79,5 @@ services:
 
 volumes:
   pgdata:
+  prometheus-data:
   grafana-data:
