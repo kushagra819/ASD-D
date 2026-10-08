@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}All Loans{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>All loans</h1>
+    <p class="muted">Complete issue and return history.</p>
+  </div>
+  <form class="filters" method="get">
+    <select name="status" onchange="this.form.submit()">
+      <option value="">All statuses</option>
+      {% for s in ['REQUESTED', 'ISSUED', 'RETURNED', 'REJECTED'] %}<option {{ 'selected' if s == status }}>{{ s }}</option>{% endfor %}
+    </select>
+  </form>
+</div>
+<div class="card">
+  <table>
+    <thead><tr><th>#</th><th>Student</th><th>Equipment</th><th>Qty</th><th>Requested</th><th>Due</th><th>Returned</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for l in loans %}
+      <tr>
+        <td>{{ l.id }}</td>
+        <td>{{ l.user.name }}<br><small class="muted">{{ l.user.roll_no }}</small></td>
+        <td>{{ l.equipment.name }}</td>
+        <td>{{ l.quantity }}</td>
+        <td>{{ l.requested_at.strftime('%d %b %Y') }}</td>
+        <td>{{ l.due_date.strftime('%d %b %Y') if l.due_date else '—' }}</td>
+        <td>{{ l.returned_at.strftime('%d %b %Y') if l.returned_at else '—' }}</td>
+        <td><span class="status s-{{ l.display_status | lower }}">{{ l.display_status }}</span></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="8" class="muted">No loans found.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

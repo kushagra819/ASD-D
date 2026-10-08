@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="auth-wrap single">
+  <form class="card auth-card" method="post">
+    <h2>Student registration</h2>
+    <label>Full name
+      <input name="name" required>
+    </label>
+    <label>Roll number
+      <input name="roll_no" required>
+    </label>
+    <label>Password (min 6 characters)
+      <input name="password" type="password" minlength="6" required>
+    </label>
+    <button class="btn btn-primary" type="submit">Register</button>
+    <p class="muted">Already registered? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+  </form>
+</div>
+{% endblock %}

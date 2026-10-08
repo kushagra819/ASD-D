@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Browse Equipment{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Browse equipment</h1>
+    <p class="muted">Request what you need for your experiment or project. Max {{ max_days }} days per loan.</p>
+  </div>
+  <form class="filters" method="get">
+    <input name="q" value="{{ q }}" placeholder="Search equipment">
+    <select name="category">
+      <option value="">All categories</option>
+      {% for c in categories %}<option {{ 'selected' if c == category }}>{{ c }}</option>{% endfor %}
+    </select>
+    <button class="btn" type="submit">Filter</button>
+  </form>
+</div>
+
+<div class="grid">
+  {% for e in equipment %}
+  <article class="card item">
+    <div class="item-top">
+      <span class="tag">{{ e.category }}</span>
+      <code>{{ e.asset_code }}</code>
+    </div>
+    <h3>{{ e.name }}</h3>
+    <p class="muted">{{ e.description }}</p>
+    {% set avail = e.available_qty %}
+    <div class="avail">
+      <div class="bar"><span style="width: {{ (avail / e.total_qty * 100) | round }}%"></span></div>
+      <strong class="{{ 'zero' if avail == 0 }}">{{ avail }} / {{ e.total_qty }} available</strong>
+    </div>
+    {% if avail > 0 %}
+    <form method="post" action="{{ url_for('student.request_equipment', equipment_id=e.id) }}" class="request-form">
+      <label>Qty <input type="number" name="quantity" min="1" max="{{ avail }}" value="1"></label>
+      <label>Days <input type="number" name="days" min="1" max="{{ max_days }}" value="7"></label>
+      <input name="purpose" placeholder="Purpose (optional)">
+      <button class="btn btn-primary" type="submit">Request</button>
+    </form>
+    {% else %}
+    <p class="unavailable">Currently all units are issued</p>
+    {% endif %}
+  </article>
+  {% else %}
+  <p class="muted">No equipment matches your search.</p>
+  {% endfor %}
+</div>
+{% endblock %}
