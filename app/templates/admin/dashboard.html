@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Lab dashboard</h1>
+    <p class="muted">Pending requests, items currently issued and overdue returns.</p>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><span>Equipment items</span><strong>{{ stats['items'] }}</strong></div>
+  <div class="stat"><span>Units available</span><strong>{{ stats['available_units'] }}<small> / {{ stats['total_units'] }}</small></strong></div>
+  <div class="stat"><span>Units issued</span><strong>{{ stats['issued_units'] }}</strong></div>
+  <div class="stat warn"><span>Pending requests</span><strong>{{ stats['pending_requests'] }}</strong></div>
+  <div class="stat danger"><span>Overdue loans</span><strong>{{ stats['overdue_loans'] }}</strong></div>
+</div>
+
+<section class="card">
+  <h2>Pending requests</h2>
+  <table>
+    <thead><tr><th>Student</th><th>Equipment</th><th>Qty</th><th>Days</th><th>Purpose</th><th>Available</th><th></th></tr></thead>
+    <tbody>
+    {% for l in pending %}
+      <tr>
+        <td>{{ l.user.name }}<br><small class="muted">{{ l.user.roll_no }}</small></td>
+        <td>{{ l.equipment.name }}</td>
+        <td>{{ l.quantity }}</td>
+        <td>{{ l.days_requested }}</td>
+        <td>{{ l.purpose or '—' }}</td>
+        <td>{{ l.equipment.available_qty }}</td>
+        <td class="actions">
+          <form method="post" action="{{ url_for('admin.approve_loan', loan_id=l.id) }}"><button class="btn btn-primary">Approve &amp; issue</button></form>
+          <form method="post" action="{{ url_for('admin.reject_loan', loan_id=l.id) }}"><button class="btn btn-ghost">Reject</button></form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7" class="muted">No pending requests.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>Currently issued {% if overdue %}<span class="status s-overdue">{{ overdue | length }} overdue</span>{% endif %}</h2>
+  <table>
+    <thead><tr><th>Student</th><th>Equipment</th><th>Qty</th><th>Issued</th><th>Due date</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    {% for l in issued %}
+      <tr class="{{ 'row-overdue' if l.is_overdue }}">
+        <td>{{ l.user.name }}<br><small class="muted">{{ l.user.roll_no }}</small></td>
+        <td>{{ l.equipment.name }}</td>
+        <td>{{ l.quantity }}</td>
+        <td>{{ l.issued_at.strftime('%d %b %Y') }}</td>
+        <td>{{ l.due_date.strftime('%d %b %Y') }}{% if l.is_overdue %}<br><small class="danger">{{ l.days_overdue }} day(s) late</small>{% endif %}</td>
+        <td><span class="status s-{{ l.display_status | lower }}">{{ l.display_status }}</span></td>
+        <td class="actions">
+          <form method="post" action="{{ url_for('admin.return_loan', loan_id=l.id) }}"><button class="btn">Mark returned</button></form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7" class="muted">Nothing is issued right now.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

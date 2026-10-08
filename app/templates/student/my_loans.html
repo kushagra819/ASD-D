@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My Loans{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>My loans</h1>
+    <p class="muted">Your requests, issued items and due dates.</p>
+  </div>
+</div>
+<div class="card">
+  <table>
+    <thead><tr><th>Equipment</th><th>Qty</th><th>Requested</th><th>Due date</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for l in loans %}
+      <tr>
+        <td><strong>{{ l.equipment.name }}</strong><br><small class="muted">{{ l.purpose }}</small></td>
+        <td>{{ l.quantity }}</td>
+        <td>{{ l.requested_at.strftime('%d %b %Y') }}</td>
+        <td>{{ l.due_date.strftime('%d %b %Y') if l.due_date else '—' }}
+            {% if l.is_overdue %}<br><small class="danger">{{ l.days_overdue }} day(s) overdue</small>{% endif %}</td>
+        <td><span class="status s-{{ l.display_status | lower }}">{{ l.display_status }}</span></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="muted">You have not requested any equipment yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

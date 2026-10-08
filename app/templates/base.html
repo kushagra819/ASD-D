@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}LabLend{% endblock %} · LabLend</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('auth.index') }}">
+      <span class="logo">LL</span>
+      <span><strong>LabLend</strong><small>Lab Equipment Issue &amp; Return</small></span>
+    </a>
+    {% if g.user %}
+    <nav>
+      {% if g.user.is_assistant %}
+        <a href="{{ url_for('admin.dashboard') }}" class="{{ 'active' if request.endpoint == 'admin.dashboard' }}">Dashboard</a>
+        <a href="{{ url_for('admin.equipment') }}" class="{{ 'active' if request.endpoint == 'admin.equipment' }}">Equipment</a>
+        <a href="{{ url_for('admin.loans') }}" class="{{ 'active' if request.endpoint == 'admin.loans' }}">All Loans</a>
+      {% else %}
+        <a href="{{ url_for('student.catalogue') }}" class="{{ 'active' if request.endpoint == 'student.catalogue' }}">Browse Equipment</a>
+        <a href="{{ url_for('student.my_loans') }}" class="{{ 'active' if request.endpoint == 'student.my_loans' }}">My Loans</a>
+      {% endif %}
+    </nav>
+    <div class="user">
+      <span>{{ g.user.name }} <em>{{ g.user.roll_no }}</em></span>
+      <a class="btn btn-ghost" href="{{ url_for('auth.logout') }}">Logout</a>
+    </div>
+    {% endif %}
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">LabLend v{{ config.APP_VERSION }} · AI &amp; DS Department Lab</footer>
+</body>
+</html>
