@@ -1,0 +1,47 @@
+# Jenkins Configuration as Code: admin user + the LabLend pipeline job.
+jenkins:
+  systemMessage: "LabLend CI/CD server (configured as code)"
+  numExecutors: 2
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "${JENKINS_ADMIN_ID:-admin}"
+          password: "${JENKINS_ADMIN_PASSWORD:-admin123}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+
+jobs:
+  - script: >
+      pipelineJob('LabLend-CI-CD') {
+        description('LabLend: checkout, unit tests, Docker build, Docker Compose deployment and smoke test')
+        properties {
+          pipelineTriggers {
+            triggers {
+              githubPush()
+              pollSCM {
+                scmpoll_spec('H/2 * * * *')
+              }
+            }
+          }
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('${LABLEND_REPO_URL:-https://github.com/kushagra819/ASD-D.git}')
+                }
+                branch('*/${LABLEND_BRANCH:-main}')
+              }
+            }
+            scriptPath('Jenkinsfile')
+            lightweight(false)
+          }
+        }
+      }

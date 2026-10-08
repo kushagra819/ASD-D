@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------
+# Jenkins for LabLend (one command):
+#   cd jenkins
+#   docker compose up -d --build
+#   open http://localhost:8080   (admin / admin123)
+# The "LabLend-CI-CD" pipeline job is created automatically.
+# ---------------------------------------------------------------
+name: lablend-jenkins
+
+services:
+  jenkins:
+    build: .
+    image: lablend-jenkins:latest
+    user: root            # needed to use the host Docker socket
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      JENKINS_ADMIN_ID: admin
+      JENKINS_ADMIN_PASSWORD: admin123
+      LABLEND_REPO_URL: ${LABLEND_REPO_URL:-https://github.com/kushagra819/ASD-D.git}
+      LABLEND_BRANCH: ${LABLEND_BRANCH:-main}
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  jenkins_home:
