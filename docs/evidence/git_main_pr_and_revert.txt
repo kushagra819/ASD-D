@@ -1,0 +1,43 @@
+$ git log --oneline --graph origin/main -12
+* 9fd5675 Revert "Allow up to 5 active loans per student"
+* 454bc81 Allow up to 5 active loans per student
+*   7140de8 Merge pull request #1 from kushagra819/feature/loan-csv-export
+|\  
+| * d497a39 Add CSV export of loan history for the lab assistant
+|/  
+* b72579d Jenkinsfile: use a single checkout stage and drop timestamps option
+* ff88b1c Add git history evidence
+* 3af767f Update monitoring screenshots with disk metrics
+*   edbc355 Merge branch 'fix/node-exporter-disk'
+|\  
+| * c33f602 Report host disk usage from node-exporter
+|/  
+* ca8ce51 Add test-run screenshots, command evidence and GitHub setup step
+*   fdab0b8 Merge branch 'fix/prometheus-volume'
+|\  
+| * 919e69f Keep Prometheus data in a named volume
+|/  
+
+$ git show --stat --format='commit %h%nAuthor: %an%nDate:   %ad%n%n    %s%n%n%b' origin/main | head -16
+commit 9fd5675
+Author: Claude
+Date:   Thu Oct 8 18:26:35 2026 +0000
+
+    Revert "Allow up to 5 active loans per student"
+
+This reverts commit 454bc81.
+
+Jenkins build #3 failed: test_student_active_loan_limit expects the agreed lab policy of 3 active requests/loans per student. Rolling main back to the last good state; the limit can be changed later together with the test once the lab agrees.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_018eCCdR3JdKzLE5sCVbvXYY
+
+
+ app/models.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git branch -r
+  origin/claude/quirky-lovelace-3nfp6h
+  origin/feature/loan-csv-export
+  origin/main
+

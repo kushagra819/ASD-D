@@ -7,12 +7,27 @@ Needed: **Docker Desktop (running)** and **Git**. Use full-screen windows for sc
 Screenshots already taken from a test run of the same project are in `docs/screenshots/`.
 You can compare yours against them.
 
+### Already done for you (in the build environment, 08 Oct 2026)
+* `main` branch created on GitHub from the development branch.
+* **Pull Request #1** (`feature/loan-csv-export` → `main`): CSV export of the loan register, merged.
+* **Jenkins** ran the real Jenkinsfile from GitHub `main` four times:
+  #1 manual ✅, #2 started automatically by the PR merge ✅ (deployed v1.0.2),
+  #3 a commit that broke the 3-active-loans rule ❌ (tests failed, deploy skipped),
+  #4 after `git revert` ✅ (deployed v1.0.4).
+* Docker, Docker Compose, Prometheus and Grafana runs, with screenshots.
+
+### Still needs you (≈40 min)
+* GitHub: set `main` as the default branch, add teammates, take screenshots of PR #1 and the commit list.
+* Each member's own commit and pull request (Exp 1). These must come from your own GitHub accounts.
+* Run Docker / Compose / Jenkins once on your laptop for your own screenshots (optional if the test-run ones are accepted).
+* Jira (Exp 6): import the CSV, create sprints, move cards, add the two "blocked by" links.
+
 ---
 
 ## Step 0 — One-time GitHub setup (≈2 min, Kushagra)
 
 The code is on the branch `claude/quirky-lovelace-3nfp6h`. On GitHub:
-1. Branch dropdown → type `main` → **Create branch: main from claude/quirky-lovelace-3nfp6h**.
+1. ~~Create branch `main`~~ (done).
 2. **Settings → General → Default branch** → choose `main`.
 3. Keep the repository **Public** (it already is), so Jenkins can clone it without credentials.
 4. **Settings → Collaborators** → add Siddharth and Varun.

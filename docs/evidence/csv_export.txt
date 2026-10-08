@@ -1,0 +1,11 @@
+$ curl -b session.txt http://localhost:5000/admin/loans/export.csv -o lablend-loans.csv
+HTTP/1.1 200 OK
+Content-Disposition: attachment; filename=lablend-loans-20261008.csv
+Content-Type: text/csv; charset=utf-8
+
+$ cat lablend-loans.csv
+Loan ID,Student,Roll No,Equipment,Asset Code,Quantity,Requested,Issued,Due Date,Returned,Status,Days Overdue
+4,Varun Masand,2401062,ESP32 DevKit,LAB-ESP-01,2,2026-10-08,2026-10-08,2026-10-13,,ISSUED,0
+3,Varun Masand,2401062,Raspberry Pi 4 (4 GB),LAB-RPI-01,1,2026-10-08,2026-10-08,2026-10-13,,ISSUED,0
+1,Kushagra Mehta,2401064,Arduino Uno R3 Kit,LAB-ARD-01,1,2026-10-05,2026-10-05,2026-10-12,2026-10-08,RETURNED,0
+2,Siddharth Maru,2401060,Digital Multimeter,LAB-DMM-01,1,2026-10-02,2026-10-02,2026-10-05,,OVERDUE,3
